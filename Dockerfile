@@ -33,10 +33,7 @@ RUN mkdir -p /run/lock/subsys \
     rm -f /usr/lib/systemd/system/basic.target.wants/*; \
     rm -f /usr/lib/systemd/system/anaconda.target.wants/*
 RUN curl -O https://linux.dell.com/repo/hardware/dsu/bootstrap.cgi && echo "y" | bash bootstrap.cgi && sed -ie "s/dsu/DSU_23.04.14/g" /etc/yum.repos.d/*
-RUN yum -y install \
-        net-snmp \
-        ipmitool \
-        dell-system-update \
+RUN yum -y install dell-system-update \
     && yum clean all \ 
     && echo "dmidecode -t1" >> ~/.bashrc
 
