@@ -1,5 +1,5 @@
 # Use CentOS 7 base image from Docker Hub
-FROM centos:7.6.1810
+FROM redhat/ubi8
 MAINTAINER Steve Kamerman "https://github.com/kamermans"
 #MAINTAINER Jose De la Rosa "https://github.com/jose-delarosa"
 
@@ -31,15 +31,16 @@ RUN mkdir -p /run/lock/subsys \
     rm -f /usr/lib/systemd/system/sockets.target.wants/*udev*; \
     rm -f /usr/lib/systemd/system/sockets.target.wants/*initctl*; \
     rm -f /usr/lib/systemd/system/basic.target.wants/*; \
-    rm -f /usr/lib/systemd/system/anaconda.target.wants/*; \
-    wget -q -O - http://linux.dell.com/repo/hardware/dsu/bootstrap.cgi | bash \
-    && yum -y install \
+    rm -f /usr/lib/systemd/system/anaconda.target.wants/*
+RUN curl -O https://linux.dell.com/repo/hardware/dsu/bootstrap.cgi && echo "y" | bash bootstrap.cgi; \
+    sed -ie "s/dsu/DSU_23.04.14/g" /etc/yum.repos.d/dell-system-update.repo
+RUN yum -y install \
         net-snmp \
         srvadmin-all \
         ipmitool \
         dell-system-update \
-    && yum clean all \
-    && localedef -i en_US -f UTF-8 en_US.UTF-8 \
+    && yum clean all
+RUN localedef -i en_US -f UTF-8 en_US.UTF-8 \
     && for SVC in snmpd instsvcdrv dsm_sa_eventmgrd dsm_sa_datamgrd dsm_sa_snmpd dsm_om_connsvc; do systemctl enable $SVC.service; done \
     # Replace weak Diffie-Hellman ciphers with Elliptic-Curve Diffie-Hellman
     # Symlink in older libstorlibir for sasdupie segfault
