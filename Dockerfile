@@ -1,6 +1,7 @@
 # Use CentOS 7 base image from Docker Hub
 FROM redhat/ubi8
-MAINTAINER Steve Kamerman "https://github.com/kamermans"
+MAINTAINER Joe Manifold "https://github.com/wolviex"
+#MAINTAINER Steve Kamerman "https://github.com/kamermans"
 #MAINTAINER Jose De la Rosa "https://github.com/jose-delarosa"
 
 # Environment variables
