@@ -1,5 +1,5 @@
 # Use CentOS 7 base image from Docker Hub
-FROM redhat/ubi8
+FROM centos:7.6.1810
 MAINTAINER Joe Manifold "https://github.com/wolviex"
 #MAINTAINER Steve Kamerman "https://github.com/kamermans"
 #MAINTAINER Jose De la Rosa "https://github.com/jose-delarosa"
@@ -32,7 +32,7 @@ RUN mkdir -p /run/lock/subsys \
     rm -f /usr/lib/systemd/system/sockets.target.wants/*initctl*; \
     rm -f /usr/lib/systemd/system/basic.target.wants/*; \
     rm -f /usr/lib/systemd/system/anaconda.target.wants/*
-RUN curl -O https://linux.dell.com/repo/hardware/dsu/bootstrap.cgi && echo "y" | bash bootstrap.cgi && sed -ie "s/dsu/DSU_23.04.14/g" /etc/yum.repos.d/*
+RUN curl -O https://linux.dell.com/repo/hardware/dsu/bootstrap.cgi && echo "y" | bash bootstrap.cgi && sed -ie "s/dsu/DSU_22.08.12/g" /etc/yum.repos.d/*
 RUN yum -y install dell-system-update \
     && yum clean all \ 
     && echo "dmidecode -t1" >> ~/.bashrc
